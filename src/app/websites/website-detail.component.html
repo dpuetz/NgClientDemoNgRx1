@@ -1,0 +1,164 @@
+<message [popup]="popup" (complete)="onComplete($event)"></message>
+
+<div class="container-fluid container-default">
+<div class="card border-0 p-3" >
+    <nav class="navbar navbar-expand-lg navbar-light p-0 ml-0 mb-1">
+        <ul class="navbar-nav" >
+        <li class="nav-item mr-3" >
+            <a class="nav-link" [routerLink]="['/websites']">
+            <i class="fa fa-angle-double-left"></i>
+            Back</a>
+        </li>
+        </ul>
+        <button class="navbar-toggler" type="button"
+                data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto nav-spacer">
+                <li class="nav-item" *ngIf="website.websiteID > 0">
+                    <a class="nav-link" [routerLink]="" (click)="openWebsite()">Launch Website</a>
+                </li>
+                <li class="nav-item" *ngIf="website.websiteID > 0">
+                    <a class="nav-link" [routerLink]="" (click) = "newWebsite()">Add New Website</a>
+                </li>
+                <li class="nav-item" *ngIf="website.websiteID > 0">
+                    <a class="nav-link" [routerLink]="" (click) = "goToPurchase()">Add New Purchase</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class=" mb-3" *ngIf = "websiteNameDisplay" >
+        <div class="website-header"><h4>Website name:  {{websiteNameDisplay}} </h4></div>
+    </div>
+
+        <form novalidate [formGroup]="websiteForm" (ngSubmit)="saveIt()">
+          <div class="form-group">
+            <label for="url">Website url:</label>
+            <input  class="form-control"
+                    id="url"
+                    type="text"
+                    placeholder="http://www."
+                    formControlName = "url" />
+            <div class="alert alert-danger" *ngIf ="urlMsg">
+                    {{urlMsg}}
+            </div>
+
+
+          </div>
+          <div class="form-group">
+            <label class="required" for="websiteName">Website name:</label>
+            <input  class="form-control"
+                    id="websiteName"
+                    type="text"
+                    formControlName="websiteName" />
+                <div class="alert alert-danger" *ngIf="websiteNameMsg" >
+                        {{websiteNameMsg}}
+                </div>
+          </div>
+
+          <div class="form-group">
+            <label   for="username">User name:</label>
+            <input  type="text"
+                    class="form-control"
+                    id="username"
+                    formControlName="username" />
+          </div>
+
+
+          <div class="form-group">
+            <label   for="email">Email:</label>
+            <input type="email" class="form-control"id="email" formControlName="email" />
+          </div>
+
+          <div class="form-group">
+            <label   for="password">Password:</label>
+            <input type="password" class="form-control" id="password" formControlName="password"  />
+          </div>
+
+          <div class="form-group">
+            <label   for="notes">Notes:</label>
+            <textarea
+                    class="form-control"
+                    id="notes" formControlName="notes"
+            ></textarea>
+          </div>
+          <div class="form-group">
+                    <div class="custom-control custom-checkbox float-left ml-2 ">
+                        <input type="checkbox"
+                            id="preferred"
+                            formControlName="preferred"
+                            class="custom-control-input"
+                            />
+                        <label  class="custom-control-label"  for="preferred">Preferred</label>
+                    </div>
+                    <div class="custom-control custom-checkbox ml-3 mb-3 float-left">
+                        <input type="checkbox"
+                            id="isBill"
+                            formControlName="isBill"
+                            class="custom-control-input"
+                            />
+                        <label class="custom-control-label" for="isBill">Monthly Bills</label>
+                    </div>
+          </div> <!--form-group-->
+
+
+        <div class="clearfix"></div>
+        <div class="form-group">
+                <div class="d-sm-inline mr-3">
+                    <button class="btn btn-primary" [disabled]="!websiteForm.valid"
+                        type="submit">Save</button>
+                </div>
+                <div class="d-sm-inline mr-3" *ngIf = "website.websiteID > 0" >
+                    <button class="btn btn-primary" type="button" (click)="deleteIt();">Delete</button>
+                </div>
+                <div class="d-sm-inline" >
+                    <button class="btn btn-primary"  type="button" routerLink = "/websites">Cancel</button>
+                </div>
+        </div>
+
+          <div class="form-group">
+            <div *ngIf="website.websiteID > 0"  style="text-align:right;margin-bottom:10px;">
+              <!-- <a [routerLink]="['/websites', website.websiteID, 'purchase', 0]"
+                 [queryParams]="{ websiteName: website.websiteName}">Add New Purchase</a> -->
+              <a [routerLink]="" (click)="goToPurchase()">Add New Purchase</a>
+            </div>
+
+            <div class="table-responsive">
+              <table *ngIf="website.lstPurchases?.length > 0" class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Purchased</th>
+                    <th>Received</th>
+                  </tr>
+                </thead>
+   <!-- [routerLink]="['/websites', website.websiteID, 'purchase', purchase.purchaseID]" -->
+                           <!-- [routerLink]="['/websites', 'purchase', purchase.purchaseID]"
+                        [queryParams] = "{websiteName: website.websiteName}"> -->
+                <tbody>
+                    <tr *ngFor="let purchase of website.lstPurchases"
+                        role="button"
+                        (click)="goToPurchase(purchase)">
+                      <td>{{purchase.productName}}</td>
+                      <td>{{purchase.purchasedOn}}</td>
+                      <td>{{purchase.arrivedOn}}</td>
+                    </tr>
+
+                </tbody>
+              </table>
+            </div>
+
+
+          </div>
+
+
+        </form>
+
+</div> <!--card-->
+</div> <!-- container-fluid -->

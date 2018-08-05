@@ -1,0 +1,29 @@
+
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3 px-5">
+  <a class="navbar-brand" href="#">Websites Manager</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+    data-target="#navbarColor01" aria-controls="navbarColor01"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink='/welcome'>Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink='/websites'>Website List</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav my-2 my-lg-0">
+      <li *ngIf="!firstName" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink='/login'>Login</a>
+      </li>
+      <li *ngIf="firstName" class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink='/login'>Hi {{firstName}}</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+

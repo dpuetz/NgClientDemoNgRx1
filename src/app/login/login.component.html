@@ -1,0 +1,66 @@
+
+<message [popup]="popup" (complete)="onComplete($event)"></message>
+
+<div class="container-fluid container-default mt-5"  >
+<div class="card border-0 p-1">
+
+<div class="card-title  p-2" >
+    <h1>Login</h1>
+</div>
+
+<div class="card-body">
+<div class="row">
+    <div class="col-sm-4 d-none d-sm-block">
+        <img [src]="'assets/cat.jpg'" class="img-fluid"  alt="login"  />
+    </div>
+    <div class="col-sm-8">
+        <form [formGroup]="loginForm" (ngSubmit)="loginIn()"
+              novalidate>
+            <div class="form-group">
+                <label for="username">User name</label>
+                <input type="text"
+                       id="username"
+                       name="username"
+                       class="form-control"
+                       placeholder="User name"
+                       formControlName="username"
+                        />
+                <div *ngIf = "usernameMsg" class="alert alert-danger">
+                        {{usernameMsg}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" >Password</label>
+                <input type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Password"
+                    formControlName="password"
+                    />
+                <div *ngIf = "passwordMsg" class="alert alert-danger">
+                        {{passwordMsg}}
+                </div>
+            </div>
+            <button type="submit"
+                    [disabled] = "!loginForm.valid"
+                    class="btn btn-primary mr-5" >
+                    Login
+            </button>
+            <a [routerLink] = "['/create']" >
+                    Create Account
+            </a>
+
+        </form>
+    </div>
+
+
+</div><!--row-->
+</div> <!--panel-body-->
+
+</div> <!--panel-->
+</div>  <!-- container -->
+
+
+
