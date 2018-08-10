@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 // import { AdminService } from "../user/user.service";
 import { AdminService } from '../admin.service';
-import * as fromAdmin from './admin.reducer';
+
 import { Store, Action } from "@ngrx/store";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Observable, of } from "rxjs";
+import * as fromAdmin from './admin.reducer';
 import * as adminActions from './admin.actions';
 import { map, mergeMap, catchError, tap } from "rxjs/operators";
 // import { ILogin } from "../../user/ILogin";
-import { ILogin } from '../../login/ilogin';
-import { ICurrentUser } from '../icurrentuser';
+import { ILogin } from '../../security/ilogin';
+// import { ICurrentUser } from '../icurrentuser';
 import { IAccount, getCurrentUser } from '../IAccount';
 
 

@@ -52,16 +52,15 @@ export class LoginComponent implements OnInit, OnDestroy  {
             .pipe(
                     select(fromAdmin.getCurrentUser),
                     takeWhile(() => this.componentActive)
-                )//pipe
+            )
             .subscribe(currentUser => {
+                console.log('watchForLogin currentUser', currentUser);
                 if(currentUser) {
-                    if (currentUser.token) {
-                        localStorage.setItem('token', currentUser.token);
-                        this.router.navigate(['/websites']);
-                    }
+                    localStorage.setItem('token', currentUser.token);
+                    this.router.navigate(['/websites']);
                 }
-            })//subscribe
-    }//watchForLogin()
+            })
+    }//watchForLogin
 
     createLoginForm (): void {
         this.model = {username:'Guest', password:'Password'};
@@ -133,14 +132,14 @@ export class LoginComponent implements OnInit, OnDestroy  {
             .pipe(
                     select(fromAdmin.getError),
                     takeWhile(() => this.componentActive)
-                )//pipe
+            )
             .subscribe(err => {
                 if(err && err.length > 0) {
                     // console.log('login-component err', JSON.stringify(err));
                     this.store.dispatch(new adminActions.ClearCurrentError());
                     this.popup = new Message('alert', 'Sorry, user name and password don\'t match.', "", 0);
                 }
-            })//subscribe
+            })
     }//watchForErrors
 
      ngOnDestroy() {

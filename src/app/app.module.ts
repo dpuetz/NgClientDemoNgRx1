@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';  //https://fontawesome.com/how-to-use/svg-with-js
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { SecurityModule } from './login/security.module';
+import { SecurityModule } from './security/security.module';
 import { MenuComponent } from './home/menu.component';
 import { PageNotFoundComponent } from './home/page-not-found.component';
 import { ShellComponent } from './home/shell.component';

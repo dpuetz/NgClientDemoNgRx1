@@ -31,8 +31,8 @@ firstName: string = '';
                 .subscribe(currentuser => {
                 if(currentuser) {
                     // console.log('MenuComponent userAccount', JSON.stringify(userAccount));
-                    if (currentuser.firstName) {
-                        this.firstName = currentuser.firstName;
+                    if (currentuser.userName) {
+                        this.firstName = currentuser.userName;
                     }
                 }
             })//subscribe

@@ -3,7 +3,7 @@ import { environment } from "../../environments/environment";
 import { HttpClient, HttpResponse  } from '@angular/common/http';
 import { throwError, Observable } from "rxjs";
 import { ICurrentUser } from "./icurrentuser";
-import { ILogin } from "../login/ilogin";
+import { ILogin } from "../security/ilogin";
 import { tap, map, catchError } from "rxjs/operators";
 import { IAccount } from "./IAccount";
 
@@ -25,9 +25,9 @@ private loginUrl: string;
 
     doLogin(loginInfo: ILogin): Observable<ICurrentUser> {
         return this.http
-            .put<HttpResponse<ICurrentUser>>(this.loginUrl, loginInfo, { observe: 'response' })
+            .post<HttpResponse<ICurrentUser>>(this.loginUrl, loginInfo, { observe: 'response' })
             .pipe (
-                tap(response => console.log(response)),
+                tap(response => console.log('doLogin tap', response)),
                 map(response => response.body),
                 catchError(this.handleError('doLoginError', null))
             );//pipe

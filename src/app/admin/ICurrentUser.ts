@@ -1,9 +1,9 @@
 export interface ICurrentUser {
-    firstName: string;
+    userName: string;
     token: string;
 }
 
 export class CurrentUser implements ICurrentUser {
-    firstName: string = '';
+    userName: string = '';
     token: string = '';
 }
