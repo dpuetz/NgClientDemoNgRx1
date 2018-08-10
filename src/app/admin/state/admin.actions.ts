@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
-import { ICurrentUser} from "../ICurrentUser";
-import { ILogin } from '../../login/ILogin';
+import { ICurrentUser} from "../icurrentuser";
+import { ILogin } from '../../login/ilogin';
 import { IAccount } from "../IAccount";
 
 export enum AdminActionTypes {

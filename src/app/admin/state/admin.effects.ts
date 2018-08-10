@@ -8,8 +8,8 @@ import { Observable, of } from "rxjs";
 import * as adminActions from './admin.actions';
 import { map, mergeMap, catchError, tap } from "rxjs/operators";
 // import { ILogin } from "../../user/ILogin";
-import { ILogin } from '../../login/ILogin';
-import { ICurrentUser } from '../ICurrentUser';
+import { ILogin } from '../../login/ilogin';
+import { ICurrentUser } from '../icurrentuser';
 import { IAccount, getCurrentUser } from '../IAccount';
 
 

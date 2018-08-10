@@ -28,4 +28,4 @@ const userRoutes: Routes = [
   providers: [
   ]
 })
-export class LoginModule { }
+export class SecurityModule { }

@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/fo
 import { debounceTime, takeWhile } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import * as fromAdmin from '../admin/state/admin.reducer';
-import * as adminActions from '../admin/state//admin.actions';
+import * as adminActions from '../admin/state/admin.actions';
 
 @Component({
   templateUrl: './login.component.html'
@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy  {
             .subscribe(currentUser => {
                 if(currentUser) {
                     if (currentUser.token) {
+                        localStorage.setItem('token', currentUser.token);
                         this.router.navigate(['/websites']);
                     }
                 }

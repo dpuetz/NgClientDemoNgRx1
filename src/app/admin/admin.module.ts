@@ -4,8 +4,8 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from '@ngrx/store';
-import { adminReducer } from '../admin/state/admin.reducer';
-import { AdminEffects } from '../admin/state/admin.effects';
+import { adminReducer } from './state/admin.reducer';
+import { AdminEffects } from './state/admin.effects';
 import { CreateAccountComponent } from './create-account.component';
 
 const adminRoutes: Routes = [

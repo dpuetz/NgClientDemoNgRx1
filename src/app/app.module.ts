@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';  //https://fontawesome.com/how-to-use/svg-with-js
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { LoginModule } from './login/login.module';
+import { SecurityModule } from './login/security.module';
 import { MenuComponent } from './home/menu.component';
 import { PageNotFoundComponent } from './home/page-not-found.component';
 import { ShellComponent } from './home/shell.component';
@@ -26,7 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
     StoreDevtoolsModule.instrument({
       maxAge: 10
     }),
-    LoginModule,
+    SecurityModule,
     AdminModule,
     AppRoutingModule
     ],

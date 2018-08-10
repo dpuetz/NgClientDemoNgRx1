@@ -4,7 +4,7 @@ import { HttpClient, HttpResponse  } from '@angular/common/http';
 import { throwError, Observable } from "rxjs";
 import { ICurrentUser } from "./icurrentuser";
 import { ILogin } from "../login/ilogin";
-import { tap, map, catchError } from "../../../node_modules/rxjs/operators";
+import { tap, map, catchError } from "rxjs/operators";
 import { IAccount } from "./IAccount";
 
 @Injectable({

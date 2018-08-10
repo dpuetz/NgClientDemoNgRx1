@@ -1,4 +1,4 @@
-import { ICurrentUser } from "./ICurrentUser";
+import { ICurrentUser } from "./icurrentuser";
 
 export interface IAccount {
     accountID: number;
