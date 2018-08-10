@@ -1,3 +1,34 @@
+////////////////////////////
+Application Map
+////////////////////////////
+Routes:				In Module			router-outlet
+	Home			App.module			home/shell.comp
+	Websites
+	Security		Security.module		app.comp
+
+Module structure:
+	app.module
+		security.module
+		shared.module
+		app-routing.module
+		
+Module details:
+	shared:
+		CommonModule
+		FormsModule
+		ReactiveFormsModule
+		--------------
+		MessageComponent
+	security:
+		RouterModule, Routes
+		SharedModule
+		Store, Effects, reducer
+		Shared
+		--------------
+		LoginComponent
+		
+		
+		
 	
 ///////////////////////////////////////////////	
 Start over with instructions on how I created NgClientDemoNgRx	
@@ -43,7 +74,7 @@ Start over with instructions on how I created NgClientDemoNgRx
 		"./node_modules/jquery/dist/jquery.slim.js",
 		"./node_modules/bootstrap/dist/js/bootstrap.js"
 	]	
-* moved in all the files
+* moved in all the files from previous broken version
 * installed ngrx:
 	npm install @ngrx/store
 	npm install @ngrx/effects
@@ -198,6 +229,7 @@ on api:
 * local publish to new NgApiDemo
 
 ////////////////////////////
+Start OUT
 Need to move the login component to app.module
 ////////////////////////////
 * rename and move user ngrx files 
@@ -213,4 +245,11 @@ Need to move the login component to app.module
 0 select
 3 reducer switch
 1 effect  
+////////////////////////////
+end OUT
+////////////////////////////
+
+////////////////////////////
+Rename the login module to Security module
+////////////////////////////
 	
