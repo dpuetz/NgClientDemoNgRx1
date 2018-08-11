@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
-import { ICurrentUser} from "../icurrentuser";
-import { ILogin } from '../../security/ilogin';
+import { ICurrentUser} from '../icurrent-user';
+import { ILogin } from '../../security/ILogin';
 import { IAccount } from "../IAccount";
 
 export enum AdminActionTypes {
@@ -11,7 +11,10 @@ export enum AdminActionTypes {
     CreateAccount = '[Admin] Create Account',
     CreateAccountSuccess = '[Admin] Create Account Success',
     CreateAccountFail = '[Admin]  Create Account Fail',
-    ClearCurrentUser = '[Admin] Clear Current User'
+    ClearCurrentUser = '[Admin] Clear Current User',
+    UpdateAccount = '[Admin] Update Account',
+    UpdateAccountSuccess = '[Admin]  Update Account Success',
+    UpdateAccountFail = '[Admin]  Update Account Fail',
 }
 
 export class Login implements Action {
@@ -33,7 +36,7 @@ export class ClearCurrentError implements Action {
 
 export class CreateAccount implements Action {
     readonly type = AdminActionTypes.CreateAccount
-    constructor (public payload: IAccount){}
+    constructor (public payload: ILogin){}
 }
 export class CreateAccountSuccess implements Action {
     readonly type = AdminActionTypes.CreateAccountSuccess
@@ -47,7 +50,18 @@ export class ClearCurrentUser implements Action {
     readonly type = AdminActionTypes.ClearCurrentUser
     constructor (){}
 }
-
+export class UpdateAccount implements Action {
+    readonly type = AdminActionTypes.UpdateAccount
+    constructor (public payload: IAccount){}
+}
+export class UpdateAccountSuccess implements Action {
+    readonly type = AdminActionTypes.UpdateAccountSuccess
+    constructor (public payload: ICurrentUser){}
+}
+export class UpdateAccountFail implements Action {
+    readonly type = AdminActionTypes.UpdateAccountFail
+    constructor (public payload: string){}
+}
 
 export type AdminActions =
           Login
@@ -58,6 +72,9 @@ export type AdminActions =
         | CreateAccountSuccess
         | CreateAccountFail
         | ClearCurrentUser
+        | UpdateAccount
+        | UpdateAccountSuccess
+        | UpdateAccountFail
 
 
 // import { Action } from "@ngrx/store";

@@ -1,7 +1,7 @@
 import * as fromRoot from '../../state/app.state';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { AdminActions, AdminActionTypes } from './admin.actions';
-import { ICurrentUser} from "../icurrentuser";
+import { ICurrentUser} from "../icurrent-user";
 
 //interface for entire application state
 export interface State extends fromRoot.State {
@@ -54,7 +54,7 @@ export function adminReducer (state = initialState, action: AdminActions): Admin
         case AdminActionTypes.CreateAccountSuccess:
             return {
                 ...state,
-                currentUser: action.payload, // ? {...action.payload}
+                currentUser: action.payload,
                 error: ''
             }
         case AdminActionTypes.CreateAccountFail:
@@ -67,6 +67,18 @@ export function adminReducer (state = initialState, action: AdminActions): Admin
             return {
                 ...state,
                 currentUser: null
+            }
+        case AdminActionTypes.UpdateAccountSuccess:
+            return {
+                ...state,
+                currentUser: action.payload,
+                error: ''
+            }
+        case AdminActionTypes.UpdateAccountFail:
+            return {
+                ...state,
+                currentUser: null,
+                error: action.payload
             }
 
         default:

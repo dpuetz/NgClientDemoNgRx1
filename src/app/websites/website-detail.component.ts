@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
-import { IWebsite, Website } from './IWebsite';
+import { IWebsite, Website } from './iwebsite';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { IMessage, Message } from '../shared/IMessage';
 import { debounceTime, takeWhile, tap } from 'rxjs/operators';

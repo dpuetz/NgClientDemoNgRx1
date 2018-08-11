@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { ILogin } from './ilogin';
+import { ILogin } from './ILogin';
 import { IMessage, Message } from '../shared/IMessage';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { debounceTime, takeWhile } from 'rxjs/operators';
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy  {
             .subscribe(currentUser => {
                 console.log('watchForLogin currentUser', currentUser);
                 if(currentUser) {
-                    localStorage.setItem('token', currentUser.token);
+                    // localStorage.setItem('token', currentUser.token);
                     this.router.navigate(['/websites']);
                 }
             })

@@ -8,10 +8,9 @@ import { Observable, of } from "rxjs";
 import * as fromAdmin from './admin.reducer';
 import * as adminActions from './admin.actions';
 import { map, mergeMap, catchError, tap } from "rxjs/operators";
-// import { ILogin } from "../../user/ILogin";
-import { ILogin } from '../../security/ilogin';
-// import { ICurrentUser } from '../icurrentuser';
-import { IAccount, getCurrentUser } from '../IAccount';
+import { ILogin } from '../../security/ILogin';
+import { IAccount } from '../IAccount';
+
 
 
 @Injectable()
@@ -20,6 +19,18 @@ export class AdminEffects {
                 private store: Store<fromAdmin.State>,
                 private actions$: Actions ){}
 
+    @Effect()
+    createAccount$: Observable<Action> = this.actions$
+        .pipe(
+            ofType(adminActions.AdminActionTypes.CreateAccount),
+            map((action: adminActions.CreateAccount) => action.payload), //map
+            mergeMap((loginInfo:ILogin) =>
+                        this.adminService.createAccount(loginInfo).pipe(
+                            map(currentUser => (new adminActions.CreateAccountSuccess(currentUser))),
+                            catchError(err => of(new adminActions.CreateAccountFail(err)))
+                        )//pipe
+            )//mergemap
+    ); //pipe
 
     @Effect()
     doLogin$: Observable<Action> = this.actions$
@@ -36,14 +47,14 @@ export class AdminEffects {
     ); //pipe
 
     @Effect()
-    createAccount$: Observable<Action> = this.actions$
+    updateAccount$: Observable<Action> = this.actions$
         .pipe(
-            ofType(adminActions.AdminActionTypes.CreateAccount),
-            map((action: adminActions.CreateAccount) => action.payload), //map
-            mergeMap((accountInfo:IAccount) =>
-                        this.adminService.createAccount(accountInfo).pipe(
-                            map(userInfo => (new adminActions.CreateAccountSuccess(getCurrentUser(userInfo)))),
-                            catchError(err => of(new adminActions.CreateAccountFail(err)))
+            ofType(adminActions.AdminActionTypes.UpdateAccount),
+            map((action: adminActions.UpdateAccount) => action.payload), //map
+            mergeMap((account: IAccount) =>
+                        this.adminService.UpdateAccount(account).pipe(
+                            map(currentUser => (new adminActions.UpdateAccountSuccess(currentUser))),
+                            catchError(err => of(new adminActions.UpdateAccountFail(err)))
                         )//pipe
             )//mergemap
     ); //pipe

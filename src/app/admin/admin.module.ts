@@ -7,9 +7,11 @@ import { StoreModule } from '@ngrx/store';
 import { adminReducer } from './state/admin.reducer';
 import { AdminEffects } from './state/admin.effects';
 import { CreateAccountComponent } from './create-account.component';
+import { UpdateAccountComponent } from './update-account.component';
 
 const adminRoutes: Routes = [
   { path: 'create', component: CreateAccountComponent },
+  { path: 'update', component: UpdateAccountComponent }
 ];
 
 
@@ -24,7 +26,8 @@ const adminRoutes: Routes = [
 
   ],
   declarations: [
-    CreateAccountComponent
+    CreateAccountComponent,
+    UpdateAccountComponent
   ],
   providers: [
   ]

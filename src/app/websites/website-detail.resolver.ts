@@ -4,7 +4,7 @@ import { Resolve, Router, ActivatedRouteSnapshot, RouteReuseStrategy, RouterStat
 
 import { Observable, of } from 'rxjs';
 import { delay, catchError } from 'rxjs/operators';
-import { IWebsite, Website } from './IWebsite';
+import { IWebsite, Website } from './iwebsite';
 import { WebsiteService } from './website.service';
 
 

@@ -2,10 +2,11 @@ import { Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
 import { HttpClient, HttpResponse  } from '@angular/common/http';
 import { throwError, Observable } from "rxjs";
-import { ICurrentUser } from "./icurrentuser";
+import { ICurrentUser, convertToCurrentUser, getGuestCurrentUserFromId } from "./icurrent-user";
 import { ILogin } from "../security/ilogin";
 import { tap, map, catchError } from "rxjs/operators";
-import { IAccount } from "./IAccount";
+import { IAccount } from "./iaccount";
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +15,11 @@ export class AdminService {
 
 private domain = environment.baseUrl;
 private loginUrl: string;
+private createUrl: string;
 
     constructor(private http: HttpClient) {
         this.loginUrl = this.domain + 'api/users';
+        this.createUrl = this.domain + 'api/account';
     }
 
     private log(message: string) {
@@ -28,22 +31,31 @@ private loginUrl: string;
             .post<HttpResponse<ICurrentUser>>(this.loginUrl, loginInfo, { observe: 'response' })
             .pipe (
                 tap(response => console.log('doLogin tap', response)),
-                map(response => response.body),
+                map(response => convertToCurrentUser(response.body)),
                 catchError(this.handleError('doLoginError', null))
             );//pipe
     }
 
-    createAccount(accountInfo: IAccount): Observable<ICurrentUser> {
+    createAccount(loginInfo: ILogin): Observable<ICurrentUser> {
         return this.http
-            .post<HttpResponse<ICurrentUser>>(this.loginUrl, accountInfo, { observe: 'response' })
+            .post<HttpResponse<ICurrentUser>>(this.createUrl, loginInfo, { observe: 'response' })
             .pipe (
                 tap(response => console.log(response)),
-                map(response => response.body),
+                map((response) => getGuestCurrentUserFromId(response)),
                 catchError(this.handleError('createAccount', null))
             );//pipe
     }
 
-
+    UpdateAccount(account: IAccount): Observable<ICurrentUser> {
+        //be sure that account has its accountID attached.
+        return this.http
+            .put<HttpResponse<ICurrentUser>>(this.createUrl, account, { observe: 'response' })
+            .pipe (
+                tap(response => console.log(response)),
+                map((response) => convertToCurrentUser(response)),
+                catchError(this.handleError('UpdateAccount', null))
+            );//pipe
+    }
 
    private handleError<T> (operation = 'operation', result?: T) {  //https://angular.io/tutorial/toh-pt6
         return (error: any): Observable<T> => {

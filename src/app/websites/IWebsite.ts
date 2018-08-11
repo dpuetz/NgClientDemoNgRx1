@@ -1,4 +1,4 @@
-import { IPurchase } from "./IPurchase"
+import { IPurchase } from "./ipurchase"
 
 export interface IWebsite {
     websiteID: number;

@@ -1,5 +1,5 @@
 import { ISearch, Search } from "../ISearch";
-import { IWebsite, Website } from "../IWebsite";
+import { IWebsite, Website } from "../iwebsite";
 import * as fromRoot from '../../state/app.state';
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { WebsiteActions, WebsiteActionTypes } from "./website.action";

@@ -6,7 +6,7 @@ import { mergeMap, map, catchError, withLatestFrom, tap, switchMap } from "rxjs/
 import { Observable, of } from "rxjs";
 import { Action, Store } from "@ngrx/store";
 import { ISearch } from "../ISearch";
-import { IWebsite, setWebsiteId } from "../IWebsite";
+import { IWebsite, setWebsiteId } from "../iwebsite";
 import * as fromWebsites from './website.reducer';
 import { IPurchase } from "../IPurchase";
 import { pipe } from "@angular/core/src/render3/pipe";

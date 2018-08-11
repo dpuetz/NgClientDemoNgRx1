@@ -1,9 +1,7 @@
-import { ICurrentUser } from "./icurrentuser";
+import { ICurrentUser } from "./icurrent-user";
 
 export interface IAccount {
-    accountID: number;
-    username: string;
-    password: string;
+    accountId: number;
     firstName: string;
     lastName: string;
     street1: string;
@@ -15,9 +13,7 @@ export interface IAccount {
 }
 
 export class Account implements IAccount {
-    accountID: number = 0;
-    username: string = '';
-    password: string = '';
+    accountId: number = 0;
     firstName: string = '';
     lastName: string = '';
     street1: string = '';
@@ -28,12 +24,12 @@ export class Account implements IAccount {
     zip: string = '';
 }
 
-export function getCurrentUser (currentUser: any): ICurrentUser {
-    let user = new currentUser();
-    user.firstName = currentUser.firstName;
-    user.token = currentUser.token;
-    return user;
-}
+// export function getCurrentUser (currentUser: any): ICurrentUser {
+//     let user = new currentUser();
+//     user.firstName = currentUser.firstName;
+//     user.token = currentUser.token;
+//     return user;
+// }
 
 // export function getUserAccount (userAccount: any): IAccount {
 //     let profile = new Account();

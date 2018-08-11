@@ -1,0 +1,120 @@
+<message [popup]="popup" (complete)="onComplete($event)"></message>
+
+<div class="container-fluid container-default mt-5"  >
+<div class="card border-0 p-1">
+
+<div class="card-title mb-0 p-2" >
+    <h1>Edit Account</h1>
+</div>
+
+<div class="card-body pt-0">
+<div class="row">
+    <div class="col-sm-12">
+        <form [formGroup]="accountForm" (ngSubmit)="saveIt()">
+            <div class="form-group">
+                <label for="firstName" class="required">First name</label>
+                <input type="text"
+                       id="firstName"
+                       name="firstName"
+                       class="form-control"
+                       placeholder="first name"
+                       formControlName="firstName"
+                        />
+                <div *ngIf = "firstNameMsg" class="alert alert-danger">
+                        {{firstNameMsg}}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName" >Last name</label>
+                <input type="text"
+                    id="lastName"
+                    name="lastName"
+                    class="form-control"
+                    placeholder="Last name"
+                    formControlName="lastName"
+                    />
+            </div>
+            <div class="form-group">
+                <label for="state">Country</label>
+                <select id="country"
+                        name="country"
+                        class="form-control"
+                        formControlName="country">
+                        <option value="" disabled selected hidden>Select country...</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="street1" >Street 1</label>
+                <input type="text"
+                    id="street1"
+                    name="street1"
+                    class="form-control"
+                    formControlName="street1"
+                    />
+            </div>
+            <div class="form-group">
+                <label for="street2" >Street 2</label>
+                <input type="text"
+                    id="street2"
+                    name="street2"
+                    class="form-control"
+                    formControlName="street2"
+                    />
+            </div>
+            <div class="form-group">
+                <label for="state" >City</label>
+                <input type="text"
+                    id="city"
+                    name="city"
+                    class="form-control"
+                    formControlName="city"
+                    />
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <select id="state"
+                        name="state"
+                        class="form-control"
+                        formControlName="state">
+                        <option value="" disabled selected hidden>Select a state...</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="zip" >Zip code</label>
+                <input type="text"
+                    id="zip"
+                    name="zip"
+                    class="form-control"
+                    formControlName="zip"
+                    />
+            </div>
+            <button type="submit"
+                    [disabled] = "!accountForm.valid"
+                    class="btn btn-primary" >
+                    Save
+            </button>
+            <button type="button"
+                    class="btn btn-primary" >
+                    Cancel
+            </button>
+        </form>
+    </div>
+
+
+</div><!--row-->
+</div> <!--panel-body-->
+
+</div> <!--panel-->
+</div>  <!-- container -->

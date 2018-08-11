@@ -13,11 +13,9 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpParams, HttpErrorResponse  }
 import { environment } from '../../environments/environment';
 
 //my models
-import { IWebsite } from './IWebsite';
+import { IWebsite } from './iwebsite';
 import { IPurchase } from './IPurchase';
 import { ISearch } from './ISearch';
-// import { ILogin } from '../login/ilogin';
-// import { ICurrentUser } from '../admin/ICurrentUser';
 
 
 const httpOptions = {

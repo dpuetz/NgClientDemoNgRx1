@@ -8,7 +8,7 @@ import { debounceTime, takeWhile, tap } from 'rxjs/operators';
 import * as fromWebsites from './state/website.reducer';
 import * as websiteActions from './state/website.action';
 import { Store, select } from '@ngrx/store';
-import { IWebsite, Website } from './IWebsite';
+import { IWebsite, Website } from './iwebsite';
 
 @Component({
   templateUrl: './purchase.component.html',

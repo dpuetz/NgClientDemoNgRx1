@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Website, IWebsite } from './IWebsite'
+import { Website, IWebsite } from './iwebsite'
 import { ISearch, Search } from './ISearch';
 import { IMessage, Message } from '../shared/IMessage';
 import { FormGroup, FormBuilder } from '@angular/forms';

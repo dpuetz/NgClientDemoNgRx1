@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { IWebsite } from "../IWebsite";
+import { IWebsite } from "../iwebsite";
 import { ISearch } from "../ISearch";
 import { IPurchase } from "../IPurchase";
 
