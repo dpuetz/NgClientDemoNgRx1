@@ -16,13 +16,18 @@
         <a class="nav-link" routerLink='/websites'>Website List</a>
       </li>
     </ul>
-    <ul class="navbar-nav my-2 my-lg-0">
-      <li *ngIf="!firstName" class="nav-item" routerLinkActive="active">
+    <ul class="navbar-nav float-right">
+        <li *ngIf="!firstName" class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink='/login'>Login</a>
-      </li>
-      <li *ngIf="firstName" class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink='/login'>Hi {{firstName}}</a>
-      </li>
+        </li>
+        <li *ngIf="firstName" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+            href="#!" role="button" aria-haspopup="true" aria-expanded="false">
+            Hi {{firstName}}</a>
+            <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" [routerLink]="['/update']">My Account</a>
+            </div>
+        </li>
     </ul>
   </div>
 </nav>

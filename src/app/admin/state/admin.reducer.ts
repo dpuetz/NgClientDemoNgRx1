@@ -32,6 +32,10 @@ export const getError = createSelector (
     getUserFeatureState,
     state => state.error
 );
+export const getCurrentUserId = createSelector (
+    getUserFeatureState,
+    state => state.currentUser.userId
+);
 
 //use optional parameters to set the state to the initial state
 export function adminReducer (state = initialState, action: AdminActions): AdminState {

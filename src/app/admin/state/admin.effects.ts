@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-// import { AdminService } from "../user/user.service";
 import { AdminService } from '../admin.service';
 
 import { Store, Action } from "@ngrx/store";
@@ -9,7 +8,7 @@ import * as fromAdmin from './admin.reducer';
 import * as adminActions from './admin.actions';
 import { map, mergeMap, catchError, tap } from "rxjs/operators";
 import { ILogin } from '../../security/ILogin';
-import { IAccount } from '../IAccount';
+import { IAccount } from '../iaccount';
 
 
 
@@ -52,7 +51,7 @@ export class AdminEffects {
             ofType(adminActions.AdminActionTypes.UpdateAccount),
             map((action: adminActions.UpdateAccount) => action.payload), //map
             mergeMap((account: IAccount) =>
-                        this.adminService.UpdateAccount(account).pipe(
+                        this.adminService.updateAccount(account).pipe(
                             map(currentUser => (new adminActions.UpdateAccountSuccess(currentUser))),
                             catchError(err => of(new adminActions.UpdateAccountFail(err)))
                         )//pipe

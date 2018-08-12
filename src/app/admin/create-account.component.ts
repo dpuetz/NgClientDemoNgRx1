@@ -21,8 +21,7 @@ private validationMessages: { [key: string]: { [key: string]: string } };
 userNameMsg: string;
 passwordMsg: string;
 accountForm: FormGroup;
-isSaving= false;
-
+isSaving = false;
 
     constructor( private router: Router,
                  private fb: FormBuilder,
@@ -63,6 +62,7 @@ isSaving= false;
                 }
             })//subscribe
     }//watchForLogin()
+
 
     createAccountForm (): void {
         this.accountForm = this.fb.group({

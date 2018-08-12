@@ -5,8 +5,7 @@ import { throwError, Observable } from "rxjs";
 import { ICurrentUser, convertToCurrentUser, getGuestCurrentUserFromId } from "./icurrent-user";
 import { ILogin } from "../security/ilogin";
 import { tap, map, catchError } from "rxjs/operators";
-import { IAccount } from "./iaccount";
-
+import { IAccount, convertToUserAccount } from "./iaccount";
 
 @Injectable({
   providedIn: 'root'
@@ -40,20 +39,33 @@ private createUrl: string;
         return this.http
             .post<HttpResponse<ICurrentUser>>(this.createUrl, loginInfo, { observe: 'response' })
             .pipe (
-                tap(response => console.log(response)),
-                map((response) => getGuestCurrentUserFromId(response)),
+                tap(response => console.log('createAccount http response', response)),
+                map((response) => getGuestCurrentUserFromId(response.body)),
                 catchError(this.handleError('createAccount', null))
             );//pipe
     }
 
-    UpdateAccount(account: IAccount): Observable<ICurrentUser> {
-        //be sure that account has its accountID attached.
+    updateAccount(account: IAccount): Observable<ICurrentUser> {
+        const url = this.createUrl + '/' + account.accountId;
+        console.log('updateAccount Service url', url);
         return this.http
-            .put<HttpResponse<ICurrentUser>>(this.createUrl, account, { observe: 'response' })
+            .put<HttpResponse<ICurrentUser>>(url, account, { observe: 'response' })
             .pipe (
-                tap(response => console.log(response)),
-                map((response) => convertToCurrentUser(response)),
-                catchError(this.handleError('UpdateAccount', null))
+                tap(response => console.log('UpdateAccount Service', response)),
+                map((response) => convertToCurrentUser(response.body)),
+                catchError(this.handleError('UpdateAccount Service', null))
+            );//pipe
+    }
+
+    getAccount(accountId: number): Observable<IAccount> {
+        const url = this.createUrl + '/' + accountId;
+        console.log('getAccount Service url', url);
+        return this.http
+            .get<HttpResponse<ICurrentUser>>(url, { observe: 'response' })
+            .pipe (
+                tap(response => console.log('getAccount Service', response)),
+                map((response) => convertToUserAccount(response.body)),
+                catchError(this.handleError('getAccount Service', null))
             );//pipe
     }
 

@@ -31,17 +31,17 @@ export class Account implements IAccount {
 //     return user;
 // }
 
-// export function getUserAccount (userAccount: any): IAccount {
-//     let profile = new Account();
-//     profile.accountID = 0;
-//     profile.firstName = userAccount.firstName;
-//     profile.lastName = userAccount.lastName;
-//     profile.street1 = userAccount.street1;
-//     profile.street2 = userAccount.street2;
-//     profile.city = userAccount.city;
-//     profile.state = userAccount.state;
-//     profile.country = userAccount.country;
-//     profile.zip = userAccount.zip;
-//     return profile;
-// }
+export function convertToUserAccount (userAccount: any): IAccount {
+    let acct = new Account();
+    acct.accountId = userAccount.accountID;
+    acct.firstName = userAccount.firstName;
+    acct.lastName = userAccount.lastName;
+    acct.street1 = userAccount.street1;
+    acct.street2 = userAccount.street2;
+    acct.city = userAccount.city;
+    acct.state = userAccount.state;
+    acct.country = userAccount.country;
+    acct.zip = userAccount.zip;
+    return acct;
+}
 

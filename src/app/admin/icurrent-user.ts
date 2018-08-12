@@ -9,8 +9,9 @@ export class CurrentUser implements ICurrentUser {
 }
 
 export function convertToCurrentUser(webserviceOutput: any) : ICurrentUser{
+    // console.log('convertToCurrentUser webserviceOutput', webserviceOutput);
     let user = new CurrentUser();
-    user.userName = webserviceOutput.userName;
+    user.userName = webserviceOutput.firstName;
     user.userId = webserviceOutput.accountID;
     return user;
 }
