@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShellComponent } from './home/shell.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { PageNotFoundComponent } from './home/page-not-found.component';
+import { AuthGuard } from './security/auth-guard.service';
 
 const appRoutes: Routes  = [
     {
@@ -13,6 +14,7 @@ const appRoutes: Routes  = [
                 { path: 'welcome', component: WelcomeComponent },
                 {
                     path: 'websites',
+                    canActivate: [ AuthGuard ],
                     loadChildren: './websites/websites.module#WebsitesModule'
                 },
                 { path: '', redirectTo: '/welcome', pathMatch: 'full'},

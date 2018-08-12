@@ -6,6 +6,7 @@ import { ICurrentUser, convertToCurrentUser, getGuestCurrentUserFromId } from ".
 import { ILogin } from "../security/ilogin";
 import { tap, map, catchError } from "rxjs/operators";
 import { IAccount, convertToUserAccount } from "./iaccount";
+import { AuthService } from "../security/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ private domain = environment.baseUrl;
 private loginUrl: string;
 private createUrl: string;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private authService: AuthService) {
         this.loginUrl = this.domain + 'api/users';
         this.createUrl = this.domain + 'api/account';
     }
@@ -26,11 +28,13 @@ private createUrl: string;
     }
 
     doLogin(loginInfo: ILogin): Observable<ICurrentUser> {
+        console.log('doLogin');
         return this.http
             .post<HttpResponse<ICurrentUser>>(this.loginUrl, loginInfo, { observe: 'response' })
             .pipe (
                 tap(response => console.log('doLogin tap', response)),
                 map(response => convertToCurrentUser(response.body)),
+                tap(response => this.authService.currentUser = response),
                 catchError(this.handleError('doLoginError', null))
             );//pipe
     }
@@ -41,6 +45,7 @@ private createUrl: string;
             .pipe (
                 tap(response => console.log('createAccount http response', response)),
                 map((response) => getGuestCurrentUserFromId(response.body)),
+                tap(response => this.authService.currentUser = response),
                 catchError(this.handleError('createAccount', null))
             );//pipe
     }
@@ -53,6 +58,7 @@ private createUrl: string;
             .pipe (
                 tap(response => console.log('UpdateAccount Service', response)),
                 map((response) => convertToCurrentUser(response.body)),
+                tap(response => this.authService.currentUser = response),
                 catchError(this.handleError('UpdateAccount Service', null))
             );//pipe
     }
@@ -63,8 +69,9 @@ private createUrl: string;
         return this.http
             .get<HttpResponse<ICurrentUser>>(url, { observe: 'response' })
             .pipe (
-                tap(response => console.log('getAccount Service', response)),
+                tap(response => console.log('getAccount Service response', response)),
                 map((response) => convertToUserAccount(response.body)),
+                tap(response => console.log('getAccount Service response.body', response)),
                 catchError(this.handleError('getAccount Service', null))
             );//pipe
     }

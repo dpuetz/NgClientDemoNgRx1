@@ -25,27 +25,32 @@ export class GetStatesService {
 
     getStates (region: string): Observable<string> {
         //if we already have it then just return it.
+
         const cachedStates = this.getCache(region);
-        this.log('getStates cachedStates ' + cachedStates);
+        // console.log('getStates region', region);
+        // console.log('getStates cachedStates', cachedStates);
+        // this.log('getStates cachedStates ' + cachedStates);
         if (cachedStates) {
+            // console.log('getStates returning cachedStates');
             return of(cachedStates);
         }
 
         //we don't have it, so get it
         const url = `${this.httpUrl}/${region}`;
-        this.log(url);
+        // console.log('getStates url ', url);
         return this.http
             .get<HttpResponse<string>>(url, { observe: 'response' })
             .pipe (
                 tap( val => console.log(`getStates status: ${val.status}, ok: ${val.ok}, statusText: ${val.statusText}, type: ${val.type}, url: ${val.url}`)),
                 map( val=> val.body),
                 tap( (val:string) => this.setCache(region, val)),
-                tap(val => this.log('getStates val = ' + val)),
+                // tap(val => this.log('getStates val = ' + val)),
                 catchError(this.handleError('getStates', null) )
             );
     } //getStatesUS
 
     private getCache(region) {
+        // console.log('getCache region', region);
         switch (region) {
             case 'us':
                 if (this.states_us) {
@@ -71,7 +76,7 @@ export class GetStatesService {
                 this.states_ca = statesString;
                 break;
         }
-        this.log('setCache statesString = ' + statesString);
+        // this.log('setCache statesString = ' + statesString);
     }
 
     private log(message: string) {

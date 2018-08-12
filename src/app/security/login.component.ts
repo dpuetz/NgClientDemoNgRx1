@@ -7,6 +7,7 @@ import { debounceTime, takeWhile } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import * as fromAdmin from '../admin/state/admin.reducer';
 import * as adminActions from '../admin/state/admin.actions';
+import { AuthService } from './auth.service';
 
 @Component({
   templateUrl: './login.component.html'
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy  {
 
     constructor( private router: Router,
                  private fb: FormBuilder,
-                 private store: Store<fromAdmin.State>
+                 private store: Store<fromAdmin.State>,
+                 private authService: AuthService
                  ) {
         this.validationMessages = {
             username: {
@@ -56,8 +58,13 @@ export class LoginComponent implements OnInit, OnDestroy  {
             .subscribe(currentUser => {
                 console.log('watchForLogin currentUser', currentUser);
                 if(currentUser) {
-                    // localStorage.setItem('token', currentUser.token);
-                    this.router.navigate(['/websites']);
+                    const redirUrl = this.authService.redirectUrl;
+                    if (redirUrl) {
+                        this.authService.redirectUrl = '';
+                        this.router.navigate([redirUrl]);
+                    } else {
+                        this.router.navigate(['/websites']);
+                    }
                 }
             })
     }//watchForLogin

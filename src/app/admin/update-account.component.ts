@@ -10,6 +10,7 @@ import * as adminActions from './state/admin.actions';
 import { IAccount, Account } from "./iaccount";
 import { AdminService } from "./admin.service";
 import { GetStatesService } from "../shared/get-states-list.service";
+import { AuthService } from "../security/auth.service";
 
 
 @Component({
@@ -32,7 +33,8 @@ stateList: any[] = [];
                  private fb: FormBuilder,
                  private store: Store<fromAdmin.State>,
                  private adminService: AdminService,
-                 private getStatesService: GetStatesService
+                 private getStatesService: GetStatesService,
+                 private authService: AuthService
                  ) {
         this.validationMessages = {
             firstName: {
@@ -43,108 +45,25 @@ stateList: any[] = [];
     };  //constructor
 
     ngOnInit() {
-        //createAccountForm calls getAccountID,
-        //which calls getPageData,
+        //createAccountForm is called
+            //now we know the accountform is created
+        //which calls getAccountData,
+            //sets the model in code
+            //now we know the country/state, if any
         //which calls loadPageData
+            //patches the model values into the form, except for country/state
+            //because states might not be listed yet for that country
+        //which calls getStates
+            //now have the states, so we can patch the country/state values into the form
+        //(changeStateList) when user changes the country, it will:
+            // this.model.country = country;  //so model picks up the new country
+            // this.accountForm.patchValue({ state: ''}); //so form displays no state, but model still has it
+            // calls getStates.
+
         this.createAccountForm();   //create account form
         this.watchFirstName();      //for validation msg
-        // this.watchCountry();     //for validation msg why do this? TODO validation msg
         this.watchErrors();         //if save generates errors, it shows here.
-        this.getStates('us');
     }
-
-    // watchAccount(): void {
-    //     //onload, get the accountID for the current user from the store and call loadPageData with it
-    //     //onsave, wait for the save http call to return. when it does, navigate away
-    //     this.store
-    //         .pipe(
-    //                 select(fromAdmin.getCurrentUser),
-    //                 takeWhile(() => this.componentActive)
-    //         )
-    //         .subscribe(currentUser => {
-    //             if(currentUser) {
-    //                 // console.log('update-account currentUser 1', JSON.stringify(currentUser));
-    //                 if (this.isSaving) {  //isSaving is probably not necessary, but just to be sure
-    //                     this.isSaving = false;
-    //                     this.router.navigate(['/websites']);
-    //                 } else if (this.isLoading && currentUser.userId) {
-    //                     this.isLoading = false;
-    //                     this.model.accountId = currentUser.userId;
-    //                     this.loadPageData(this.model.accountId);
-    //                 }
-    //             }
-    //         })//subscribe
-    // }//watchAccount
-    // ngOnInit(): void {
-    //     this.productService.getProducts()
-    //             .subscribe(products => this.products = products,
-    //                        error => this.errorMessage = <any>error);
-    // }
-//     getAccountID() {
-    changeStateList(country: string) {
-        this.accountForm.patchValue({ state: ''});
-        this.getStates(country.toLocaleLowerCase());
-    }
-    getAccountID () {
-        this.store
-            .pipe(
-                select(fromAdmin.getCurrentUserId),
-                take(1)
-            )
-            .subscribe(accountID => {
-                console.log('update-account getAccountID 1 accountID', accountID);
-                if(accountID) {
-                    console.log('update-account getAccountID 2 accountID', accountID);
-                    this.model.accountId = accountID; //just to be sure
-                    this.getPageData(accountID);
-                } //accountID
-            })//subscribe
-
-    } //getAccountID
-
-    getPageData(accountId: number) {
-        console.log('update-account getPageData accountId', accountId);
-        this.adminService.getAccount(accountId)
-            .pipe(
-                takeWhile(() => this.componentActive),
-                map(data => data)
-            )
-            .subscribe( (data: IAccount) => this.loadPageData(data))
-    } //loadPageData
-
-    getStates(value: string) {
-console.log('update-account getStates value', value);
-       this.getStatesService.getStates(value)
-            .pipe(
-                take(1),
-                map(data => data)
-            )
-            .subscribe( (data: string) => this.stateList = JSON.parse(data))
-            // .subscribe( (data: string) => console.log('app.component ngOnInit', JSON.parse(data)));
-console.log('update-account  getStates this.stateList', this.stateList);
-
-    }
-
-    loadPageData(accountInfo: IAccount) {
-        console.log('update-account loadPageData 1 accountInfo', accountInfo);
-        if (this.accountForm) {
-            this.accountForm.reset();
-        }
-        this.model = accountInfo;
-        // Update the data on the form
-        this.accountForm.patchValue({
-            firstName: this.model.firstName,
-            lastName: this.model.lastName,
-            street1: this.model.street1,
-            street2: this.model.street2,
-            city: this.model.city,
-            state: this.model.state,
-            country: this.model.country,
-            zip: this.model.zip,
-        });
-
-    } //loadPageData
-
     createAccountForm (): void {
         this.accountForm = this.fb.group({
             firstName: ['', [Validators.required]],
@@ -156,7 +75,90 @@ console.log('update-account  getStates this.stateList', this.stateList);
             country: '',
             zip: ''
         });
-        this.getAccountID();
+        this.getAccountData();
+    }
+    getAccountData() {
+        this.model.accountId = +this.authService.currentUser.userId;
+        console.log('update-account getAccountData accountId', this.model.accountId);
+        this.adminService.getAccount(this.model.accountId)
+            .pipe(
+                takeWhile(() => this.componentActive),
+                map(data => data)
+            )
+            .subscribe( (data: IAccount) => {
+                console.log('getAccountData is back');
+                this.model = data;
+                this.loadPageData();
+            })
+    } //getAccountData
+
+    loadPageData() {
+        // console.log('loadPageData this.model', this.model);
+        if (this.accountForm) {
+            this.accountForm.reset();
+        }
+
+        // Update the data on the form
+        this.accountForm.patchValue({
+            firstName: this.model.firstName,
+            lastName: this.model.lastName,
+            street1: this.model.street1,
+            street2: this.model.street2,
+            city: this.model.city,
+            // state: this.model.state,
+            // country: this.model.country,
+            zip: this.model.zip,
+        });
+        this.getStates(this.model.country);
+
+    } //loadPageData
+
+    getStates(value: string) {
+        value = value ? value : 'us';
+        this.getStatesService.getStates(value)
+            .pipe(
+                take(1),
+                map(data => data)
+            )
+            .subscribe( (data: string) => {
+                this.stateList = JSON.parse(data);
+                // console.log('this.stateList', this.stateList);
+                // console.log('this.model.state', this.model.state);
+                // console.log('this.model.country', this.model.country);
+                // Update the data on the form
+                this.accountForm.patchValue({
+                    state: this.model.state,
+                    country: this.model.country
+                });
+            })
+    } //getStates
+
+
+
+    watchAccount(): void {
+        //onsave, wait for the save http call to return. When it does,
+        //this will get triggered, so then navigate away
+        this.store
+            .pipe(
+                    select(fromAdmin.getCurrentUser),
+                    takeWhile(() => this.componentActive)
+            )
+            .subscribe(currentUser => {
+                if(currentUser) {
+                    console.log('update-account currentUser 1', JSON.stringify(currentUser));
+                    if (this.isSaving) {  //isSaving is probably not necessary, but just to be sure
+                        this.isSaving = false;
+                        this.router.navigate(['/websites']);
+                    }
+                }
+            })//subscribe
+    }//watchAccount
+
+    changeStateList(country: string) {
+        console.log('country', country);
+        this.model.country = country;
+        this.accountForm.patchValue({ state: ''});
+        this.getStates(country.toLocaleLowerCase());
     }
 
     watchFirstName(): void {
@@ -169,17 +171,6 @@ console.log('update-account  getStates this.stateList', this.stateList);
                             this.setMessage(ctrl, 'firstName'); }
         );
     }
-    // watchCountry(): void {
-    //     const usernameControl = this.accountForm.get('country');
-    //     usernameControl.valueChanges
-    //             .pipe(
-    //                     takeWhile(() => this.componentActive)
-    //             )
-    //             .subscribe(value => {
-    //                         console.log('country changed', value);
-    //                     }
-    //     );
-    // }
 
     setMessage(c: AbstractControl, name: string): void {
         switch (name)   {
@@ -191,26 +182,22 @@ console.log('update-account  getStates this.stateList', this.stateList);
                 }
                 break;
 
-        } //switch
+        }
     } //setMessage
 
    watchErrors () {
         this.store
             .pipe(
-                    select(fromAdmin.getError),
-                    takeWhile(() => this.componentActive)
+                select(fromAdmin.getError),
+                takeWhile(() => this.componentActive)
             )
             .subscribe(err => {
                 if(err) {
-                    let obj = JSON.parse(err);
-                    if (obj['error'] && obj['error'] === 'Username already in use.') {
-                        this.popup = new Message('alert', 'This username is already in use. Please pick a new one.', "", 0);
-                    } else {
-                        this.popup = new Message('alert', 'Sorry, an error has occurred', "", 0);
-                    }
+                    this.popup = new Message('alert', 'Sorry, an error has occurred', "", 0);
                     this.store.dispatch(new adminActions.ClearCurrentError());
                 }
-            })//subscribe
+            })
+
     }//watchForErrors
 
     saveIt(): void {

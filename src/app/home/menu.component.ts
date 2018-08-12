@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import * as fromAdmin from '../admin/state/admin.reducer';
 import { takeWhile } from 'rxjs/operators';
+import * as adminActions from '../admin/state/admin.actions';
 
 @Component({
   selector: 'pm-menu',
@@ -27,19 +28,20 @@ firstName: string = '';
             .pipe(
                     select(fromAdmin.getCurrentUser),
                     takeWhile(() => this.componentActive)
-                )//pipe
-                .subscribe(currentuser => {
-                if(currentuser) {
-                    // console.log('MenuComponent userAccount', JSON.stringify(userAccount));
-                    if (currentuser.userName) {
-                        this.firstName = currentuser.userName;
+            )
+            .subscribe(currentuser => {
+                    if(currentuser) {
+                        // console.log('MenuComponent userAccount', JSON.stringify(userAccount));
+                        if (currentuser.userName) {
+                            this.firstName = currentuser.userName;
                     }
                 }
-            })//subscribe
+            })
+            
     }//watchForLogin()
 
-
     logOut(): void {
+        this.store.dispatch(new adminActions.ClearCurrentUser());
         this.router.navigate(['/welcome']);
     }
 

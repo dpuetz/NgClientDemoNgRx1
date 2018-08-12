@@ -12,11 +12,11 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink='/welcome'>Home <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
+      <li *ngIf="firstName"  class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink='/websites'>Website List</a>
       </li>
     </ul>
-    <ul class="navbar-nav float-right">
+    <ul class="navbar-nav navbar-right">
         <li *ngIf="!firstName" class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink='/login'>Login</a>
         </li>
@@ -26,6 +26,7 @@
             Hi {{firstName}}</a>
             <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" [routerLink]="['/update']">My Account</a>
+            <a class="dropdown-item"  href="#!" (click)="logOut">Log out</a>
             </div>
         </li>
     </ul>

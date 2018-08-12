@@ -8,10 +8,11 @@ import { adminReducer } from './state/admin.reducer';
 import { AdminEffects } from './state/admin.effects';
 import { CreateAccountComponent } from './create-account.component';
 import { UpdateAccountComponent } from './update-account.component';
+import { AuthGuard } from '../security/auth-guard.service';
 
 const adminRoutes: Routes = [
   { path: 'create', component: CreateAccountComponent },
-  { path: 'update', component: UpdateAccountComponent }
+  { path: 'update', component: UpdateAccountComponent, canActivate: [ AuthGuard ], }
 ];
 
 
