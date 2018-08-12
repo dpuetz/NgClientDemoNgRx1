@@ -1,16 +1,19 @@
-import { Component, AfterContentInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from '@angular/router';
+import { GetStatesService } from './shared/get-states-list.service';
+import { take, map } from '../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent {  // implements AfterContentInit
+export class AppComponent implements OnInit {  
 
     loading: boolean;
     userName: string = 'No UserName';
 
-    constructor( private router:Router) {
+    constructor( private router:Router,
+                private getStatesService: GetStatesService) {
         router.events.subscribe(
             (routerEvent: Event) => {
                 this.checkRouterEvent(routerEvent);
@@ -35,6 +38,16 @@ export class AppComponent {  // implements AfterContentInit
             }
 
     }//checkRouterEvent
+
+    ngOnInit() {
+        this.getStatesService.getStates('us')
+            .pipe(
+                take(1),
+                map(data => data)
+            )
+            .subscribe( (data: string) => JSON.parse(data))
+            // .subscribe( (data: string) => console.log('app.component ngOnInit', JSON.parse(data)));
+    }
 
 
 }//class

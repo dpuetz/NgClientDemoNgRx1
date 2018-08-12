@@ -32,7 +32,9 @@ isSaving = false;
                 required: 'Please enter your user name.'
             },
             password: {
-                required: 'Please enter your password.'
+                required: 'Please enter your password.',
+                minlength: 'Password must be at least 4 characters long.',
+                maxlength: 'Password cannot be more than 10 characters long.'
             }
         }
     };  //constructor
@@ -67,7 +69,7 @@ isSaving = false;
     createAccountForm (): void {
         this.accountForm = this.fb.group({
             userName: ['', [Validators.required]],
-            password: ['', [Validators.required]]
+            password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]]
         })
     }
 
@@ -84,12 +86,13 @@ isSaving = false;
     watchPassword(): void {
         const ctrl = this.accountForm.get('password');
         ctrl.valueChanges
-                .pipe(
-                        debounceTime(100),
-                        takeWhile(() => this.componentActive))
-                .subscribe(value => {
-                            this.setMessage(ctrl, 'password'); }
-        );
+            .pipe(
+                debounceTime(100),
+                takeWhile(() => this.componentActive)
+            )
+            .subscribe(value => {
+                this.setMessage(ctrl, 'password'); }
+            );
     }
 
     setMessage(c: AbstractControl, name: string): void {
@@ -98,14 +101,16 @@ isSaving = false;
                 this.userNameMsg = '';
                 if ((c.touched || c.dirty) && c.errors) {
                     this.userNameMsg = Object.keys(c.errors).map(key =>
-                                this.validationMessages.userName[key]).join(' ');
+                            this.validationMessages.userName[key]).join(' ');
                 }
                 break;
             case 'password':
                 this.passwordMsg = '';
-                if ((c.touched || c.dirty) && c.errors) {
-                    this.passwordMsg = Object.keys(c.errors).map(key =>
-                                this.validationMessages.password[key]).join(' ');
+                if ((c.touched || c.dirty) && c.errors)
+                {
+                    this.passwordMsg = Object.keys(c.errors)
+                       .map(key =>
+                            this.validationMessages.password[key]).join(' ');
                 }
                 break;
         } //switch

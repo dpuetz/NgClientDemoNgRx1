@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from "@angular/core";
 import { Router } from "@angular/router";
-import { Store, select } from '@ngrx/store';
+import { Store, select, State } from '@ngrx/store';
 import { IMessage, Message } from '../shared/IMessage';
 import { debounceTime, takeWhile, map, take } from 'rxjs/operators';
 import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
@@ -9,6 +9,8 @@ import * as fromAdmin from './state/admin.reducer';
 import * as adminActions from './state/admin.actions';
 import { IAccount, Account } from "./iaccount";
 import { AdminService } from "./admin.service";
+import { GetStatesService } from "../shared/get-states-list.service";
+
 
 @Component({
     templateUrl: './update-account.component.html'
@@ -24,17 +26,20 @@ firstNameMsg: string;
 accountForm: FormGroup;
 isSaving= false;
 isLoading = true;
+stateList: any[] = [];
 
     constructor( private router: Router,
                  private fb: FormBuilder,
                  private store: Store<fromAdmin.State>,
-                 private adminService: AdminService
+                 private adminService: AdminService,
+                 private getStatesService: GetStatesService
                  ) {
         this.validationMessages = {
             firstName: {
                 required: 'Please enter your first name.'
             }
         }
+
     };  //constructor
 
     ngOnInit() {
@@ -45,6 +50,7 @@ isLoading = true;
         this.watchFirstName();      //for validation msg
         // this.watchCountry();     //for validation msg why do this? TODO validation msg
         this.watchErrors();         //if save generates errors, it shows here.
+        this.getStates('us');
     }
 
     // watchAccount(): void {
@@ -75,27 +81,15 @@ isLoading = true;
     //                        error => this.errorMessage = <any>error);
     // }
 //     getAccountID() {
-
-// // let x = this.store.select(state => state.admin.currentUser.userId);
-// let x = this.store.select(fromAdmin.getCurrentUserId);
-// console.log('getAccountID x', x);
-// let y = this.store.select(fromAdmin.getCurrentUser);
-// console.log('getAccountID y', y);
-//         // let x = this.store.select(fromAdmin.getCurrentUserId);
-//         // console.log('getAccountID x', x);
-
-//         // let y = fromAdmin.getCurrentUserId;
-//         // console.log('getAccountID y', y);
-
-//         this.model.accountId = + this.store.select(fromAdmin.getCurrentUserId);
-//         console.log('getAccountID this.model.accountId', this.model.accountId);
-//     }
-
+    changeStateList(country: string) {
+        this.accountForm.patchValue({ state: ''});
+        this.getStates(country.toLocaleLowerCase());
+    }
     getAccountID () {
         this.store
             .pipe(
-                    select(fromAdmin.getCurrentUserId),
-                    take(1)
+                select(fromAdmin.getCurrentUserId),
+                take(1)
             )
             .subscribe(accountID => {
                 console.log('update-account getAccountID 1 accountID', accountID);
@@ -105,14 +99,6 @@ isLoading = true;
                     this.getPageData(accountID);
                 } //accountID
             })//subscribe
-        // this.store.select(this.selector.getCountry())
-        //     .take(1)
-        //     .subscribe(country => {
-        //         this.store.dispatch(this.action.login({
-        //             loginData,
-        //             country
-        //         }));
-        //     });
 
     } //getAccountID
 
@@ -125,6 +111,19 @@ isLoading = true;
             )
             .subscribe( (data: IAccount) => this.loadPageData(data))
     } //loadPageData
+
+    getStates(value: string) {
+console.log('update-account getStates value', value);
+       this.getStatesService.getStates(value)
+            .pipe(
+                take(1),
+                map(data => data)
+            )
+            .subscribe( (data: string) => this.stateList = JSON.parse(data))
+            // .subscribe( (data: string) => console.log('app.component ngOnInit', JSON.parse(data)));
+console.log('update-account  getStates this.stateList', this.stateList);
+
+    }
 
     loadPageData(accountInfo: IAccount) {
         console.log('update-account loadPageData 1 accountInfo', accountInfo);
