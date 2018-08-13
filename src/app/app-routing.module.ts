@@ -6,7 +6,7 @@ import { WelcomeComponent } from './home/welcome.component';
 import { PageNotFoundComponent } from './home/page-not-found.component';
 import { AuthGuard } from './security/auth-guard.service';
 import { UpdateAccountComponent } from './admin/update-account.component';
-import { AdminEditGuard } from './admin/admin-guard.service';
+// import { AdminEditGuard } from './admin/admin-guard.service';
 
 const appRoutes: Routes  = [
     {
@@ -22,8 +22,8 @@ const appRoutes: Routes  = [
                 {
                     path: 'update',
                     component: UpdateAccountComponent,
-                    canActivate: [ AuthGuard ],
-                    canDeactivate: [ AdminEditGuard ]
+                    canActivate: [ AuthGuard ]
+                    
                 },
                 { path: '', redirectTo: '/welcome', pathMatch: 'full'},
         ]

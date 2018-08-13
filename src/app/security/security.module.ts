@@ -4,12 +4,14 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { SharedModule } from '../shared/shared.module';
 import { LoginComponent } from './login.component';
+import { CreateAccountComponent } from '../admin/create-account.component';
 import { StoreModule } from '@ngrx/store';
 import { adminReducer } from '../admin/state/admin.reducer';
 import { AdminEffects } from '../admin/state/admin.effects';
 
 const userRoutes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'create', component: CreateAccountComponent }
 ];
 
 
@@ -23,7 +25,8 @@ const userRoutes: Routes = [
     )
   ],
   declarations: [
-    LoginComponent
+    LoginComponent,
+    CreateAccountComponent
   ],
   providers: [
   ]
