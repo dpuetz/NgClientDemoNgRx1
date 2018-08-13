@@ -4,7 +4,6 @@ import { IWebsite, Website } from './iwebsite';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { IMessage, Message } from '../shared/IMessage';
 import { debounceTime, takeWhile, tap } from 'rxjs/operators';
-// import { PurchaseParameterService } from './purchase-parameter.service';
 import * as fromWebsites from './state/website.reducer';
 import * as websiteActions from './state/website.action';
 import { Store, select } from '@ngrx/store';
@@ -37,7 +36,6 @@ export class WebsiteDetailComponent implements OnDestroy, OnInit {
 
     constructor(  private router: Router,
                   private fb: FormBuilder,
-                //   private purchaseParams: PurchaseParameterService,
                   private store: Store<fromWebsites.State>) {
                     // Define all of the validation messages for the form.
                     this.validationMessages = {

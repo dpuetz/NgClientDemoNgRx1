@@ -28,11 +28,11 @@ private createUrl: string;
     }
 
     doLogin(loginInfo: ILogin): Observable<ICurrentUser> {
-        console.log('doLogin');
+        // console.log('doLogin');
         return this.http
             .post<HttpResponse<ICurrentUser>>(this.loginUrl, loginInfo, { observe: 'response' })
             .pipe (
-                tap(response => console.log('doLogin tap', response)),
+                // tap(response => console.log('doLogin tap', response)),
                 map(response => convertToCurrentUser(response.body)),
                 tap(response => this.authService.currentUser = response),
                 catchError(this.handleError('doLoginError', null))
@@ -43,7 +43,7 @@ private createUrl: string;
         return this.http
             .post<HttpResponse<ICurrentUser>>(this.createUrl, loginInfo, { observe: 'response' })
             .pipe (
-                tap(response => console.log('createAccount http response', response)),
+                // tap(response => console.log('createAccount http response', response)),
                 map((response) => getGuestCurrentUserFromId(response.body)),
                 tap(response => this.authService.currentUser = response),
                 catchError(this.handleError('createAccount', null))

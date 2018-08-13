@@ -111,8 +111,9 @@ export class WebsiteService {
         return this.http.get<HttpResponse<IWebsite>>(url, { observe: 'response' })
             .pipe(
                     tap( val => this.log(`getWebsiteById status: ${val.status}, ok: ${val.ok}, statusText: ${val.statusText}, type: ${val.type}, url: ${val.url} `)),
-                    // tap(val => this.log('getWebsiteById stringified = ' + JSON.stringify(val, null, 4))),
+                    tap(val => this.log('getWebsiteById stringified 1 = ' + JSON.stringify(val, null, 4))),
                     map(val => val.body),          //val returns IWebsite if no error
+                    tap(val => this.log('getWebsiteById stringified 2 = ' + JSON.stringify(val, null, 4))),
                     catchError(this.handleError('getWebsiteById', null))  //return null if error
             ); //pipe
     }

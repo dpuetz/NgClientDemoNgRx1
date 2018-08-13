@@ -6,7 +6,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import * as fromWebsites from './state/website.reducer';
 import * as websiteActions from './state/website.action';
-import { takeWhile, tap } from 'rxjs/operators';
+import { takeWhile, tap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 @Component({
@@ -28,50 +28,65 @@ export class WebsitesComponent implements OnInit, OnDestroy {
                  private router: Router  ) { }
 
     ngOnInit() {
-        this.store
-            .pipe(
-                    select(fromWebsites.getSearchParams),
-                    takeWhile(() => this.componentActive)
-                )//pipe
-            .subscribe(searchParams => {
-                if (searchParams) {
-                    this.search = searchParams
-                }
-            })//subscribe
+        //call this.getSearchParams() (just once on load)
+        //which calls this.getWebsites()
+        this.buildSearchForm();     //build the form
+        this.getSearchParams();
+        this.watchStoreWebsites();  //watch store for website list changes
+        this.watchStoreErrors();    //watch store for errors
+    }
 
+    watchStoreErrors() {
         this.store
             .pipe(
-                    select(fromWebsites.getWebsites),
-                    takeWhile(() => this.componentActive)
-                )//pipe
-            .subscribe(websites => {
-                if (websites) {
-                    this.websites = websites
-                    this.recordsReturned = websites.length;
-                    window.scrollTo(0, 0);
-                }
-            })//subscribe
-
-        this.store
-            .pipe(
-                    select(fromWebsites.getError),
-                    takeWhile(() => this.componentActive)
-                )//pipe
+                select(fromWebsites.getError),
+                takeWhile(() => this.componentActive)
+            )
             .subscribe(err => {
                 console.log('err', JSON.stringify(err));
                 if(err) {
                     this.store.dispatch(new websiteActions.ClearCurrentError());
                     this.showError();
                 }
-            })//subscribe
+            })
+    }//watchStoreErrors
 
+    watchStoreWebsites(){
+       this.store
+            .pipe(
+                    select(fromWebsites.getWebsites),
+                    takeWhile(() => this.componentActive)
+            )
+            .subscribe(websites => {
+                if (websites) {
+                    this.websites = websites
+                    this.recordsReturned = websites.length;
+                    window.scrollTo(0, 0);
+                }
+            })
+    } //watchStoreWebsites
+
+    getSearchParams() {
+            this.store
+                .pipe(
+                        select(fromWebsites.getSearchParams),
+                        take(1)
+                        // takeWhile(() => this.componentActive)
+                )
+                .subscribe(searchParams => {
+                    if (searchParams) {
+                        this.search = searchParams;
+                        this.getWebsites();
+                    }
+                })//subscribe
+    } //getSearchParams
+
+    buildSearchForm() {
         this.searchForm = this.fb.group({
             searchWord: this.search.searchWord,
             isBill: this.search.isBill,
             isPreferred: this.search.isPreferred
         });
-
-        this.getWebsites();
     }
     searchCheckboxChanged() {
         this.doCheckSearch();
