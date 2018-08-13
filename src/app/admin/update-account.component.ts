@@ -63,6 +63,7 @@ stateList: any[] = [];
         this.createAccountForm();   //create account form
         this.watchFirstName();      //for validation msg
         this.watchErrors();         //if save generates errors, it shows here.
+        this.watchAccount();        //after save, this is called to navigate away
     }
     createAccountForm (): void {
         this.accountForm = this.fb.group({
@@ -145,13 +146,13 @@ stateList: any[] = [];
             )
             .subscribe(currentUser => {
                 if(currentUser) {
-                    console.log('update-account currentUser 1', JSON.stringify(currentUser));
+                    console.log('update-account currentUser 2', JSON.stringify(currentUser));
                     if (this.isSaving) {  //isSaving is probably not necessary, but just to be sure
                         this.isSaving = false;
                         this.router.navigate(['/websites']);
                     }
                 }
-            })//subscribe
+            })
     }//watchAccount
 
     changeStateList(country: string) {

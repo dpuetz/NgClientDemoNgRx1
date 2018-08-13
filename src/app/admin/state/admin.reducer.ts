@@ -73,6 +73,7 @@ export function adminReducer (state = initialState, action: AdminActions): Admin
                 currentUser: null
             }
         case AdminActionTypes.UpdateAccountSuccess:
+console.log('reducer payload', action.payload);
             return {
                 ...state,
                 currentUser: action.payload,

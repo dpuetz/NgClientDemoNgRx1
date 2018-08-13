@@ -56,9 +56,10 @@ private createUrl: string;
         return this.http
             .put<HttpResponse<ICurrentUser>>(url, account, { observe: 'response' })
             .pipe (
-                tap(response => console.log('UpdateAccount Service', response)),
+                // tap(response => console.log('UpdateAccount Service', response)),
                 map((response) => convertToCurrentUser(response.body)),
                 tap(response => this.authService.currentUser = response),
+                // tap(response => console.log('UpdateAccount Final Return', response)),
                 catchError(this.handleError('UpdateAccount Service', null))
             );//pipe
     }
