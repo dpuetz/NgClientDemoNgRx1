@@ -14,6 +14,7 @@ import { ShellComponent } from './home/shell.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { AdminModule } from './admin/admin.module';
 import { AppRoutingModule } from './app-routing.module';
+import { UpdateAccountComponent } from './admin/update-account.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { AppRoutingModule } from './app-routing.module';
     MenuComponent,
     PageNotFoundComponent,
     ShellComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    UpdateAccountComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

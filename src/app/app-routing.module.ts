@@ -5,6 +5,8 @@ import { ShellComponent } from './home/shell.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { PageNotFoundComponent } from './home/page-not-found.component';
 import { AuthGuard } from './security/auth-guard.service';
+import { UpdateAccountComponent } from './admin/update-account.component';
+import { AdminEditGuard } from './admin/admin-guard.service';
 
 const appRoutes: Routes  = [
     {
@@ -16,6 +18,12 @@ const appRoutes: Routes  = [
                     path: 'websites',
                     canActivate: [ AuthGuard ],
                     loadChildren: './websites/websites.module#WebsitesModule'
+                },
+                {
+                    path: 'update',
+                    component: UpdateAccountComponent,
+                    canActivate: [ AuthGuard ],
+                    canDeactivate: [ AdminEditGuard ]
                 },
                 { path: '', redirectTo: '/welcome', pathMatch: 'full'},
         ]
