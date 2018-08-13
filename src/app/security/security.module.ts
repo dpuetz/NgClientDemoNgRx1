@@ -8,10 +8,28 @@ import { CreateAccountComponent } from '../admin/create-account.component';
 import { StoreModule } from '@ngrx/store';
 import { adminReducer } from '../admin/state/admin.reducer';
 import { AdminEffects } from '../admin/state/admin.effects';
+import { AppComponent } from '../app.component';
 
+// const userRoutes: Routes = [
+//   { path: 'login', component: LoginComponent },
+//   { path: 'create', component: CreateAccountComponent }
+// ];
 const userRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'create', component: CreateAccountComponent }
+    {
+        path: 'users',
+        component: AppComponent,
+        children: [
+          {
+                path: 'login',
+                component: LoginComponent,
+            },
+            {
+                path: 'create',
+                component: CreateAccountComponent
+            }
+        ]
+    }
+
 ];
 
 
