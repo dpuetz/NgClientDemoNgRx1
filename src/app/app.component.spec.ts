@@ -7,6 +7,49 @@ import { ICurrentUser, convertToCurrentUser, getGuestCurrentUserFromId } from ".
 import { WebsiteService } from './websites/website.service';
 import { ISearch, Search } from './websites/isearch';
 
+// import { WebsitesComponent } from './websites/websites.component';
+// import { FormBuilder } from '@angular/forms';
+// import { Store } from '@ngrx/store';
+// import { Router } from '@angular/router';
+// import * as fromWebsites from './websites/state/website.reducer';
+// // doCheckSearch will set searchWord to ''
+// //console.log('this.searchForm.get(searchWord).value 2', this.searchForm.get('searchWord').value);
+// // constructor( private fb: FormBuilder,
+// // private store: Store<fromWebsites.State>,
+// // private router: Router  ) { }
+
+
+//this does not work, because of fb, but is an example of how to do
+//isolated test on a component:
+// describe ('WebsitesComponent', () => {
+//     let component: WebsitesComponent;
+//     let fb: FormBuilder;
+//     let mockStore;
+//     let mockRouter;
+//     beforeEach(() => {
+//         component = new WebsitesComponent(fb, mockStore, mockRouter);
+//         component.searchForm = fb.group({
+//             searchWord: '',
+//             isBill: true,
+//             isPreferred: true
+//         });
+//         component.buildSearchForm();
+//     })
+//     describe('doCheckSearch', () => {
+//         it('should set searchWord to email', () => {
+//             this.searchForm.get('searchWord').value = 'email';
+//             let sch = this.searchForm.get('searchWord').value;
+//             expect(sch).toBe('email');
+//         })
+//         it('should set searchWord to empty', () => {
+//             component.doCheckSearch();
+//             let sch = this.searchForm.get('searchWord').value;
+//             expect(sch).toBe('');
+//         })
+//     })
+
+// })
+
 
 
 // works

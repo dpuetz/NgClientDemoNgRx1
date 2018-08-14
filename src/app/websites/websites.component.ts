@@ -76,8 +76,8 @@ export class WebsitesComponent implements OnInit, OnDestroy {
                 .subscribe(searchParams => {
                     if (searchParams) {
                         this.search = searchParams;
-                        this.getWebsites();
                     }
+                    this.getWebsites();
                 })//subscribe
     } //getSearchParams
 
@@ -101,13 +101,18 @@ export class WebsitesComponent implements OnInit, OnDestroy {
         this.searchForm.patchValue({
             searchWord: ''
         });
+        // console.log('this.searchForm.get(searchWord).value 2', this.searchForm.get('searchWord').value);
+
         this.getWebsites();
     }
 
-    getWebsites():void {
-        // let searchParams = Object.assign({}, this.search, this.searchForm.value);
-        let searchParams = {...this.search, ...this.searchForm.value};
+    setSearchParams(searchParams: ISearch) {
         this.store.dispatch(new websiteActions.SetSearchParams(searchParams));
+    }
+
+    getWebsites():void {
+        let searchParams = {...this.search, ...this.searchForm.value};
+        this.setSearchParams(searchParams);
         this.store.dispatch(new websiteActions.Load(searchParams));
     }//getWebsites
 
